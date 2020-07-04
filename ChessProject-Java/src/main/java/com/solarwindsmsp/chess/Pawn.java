@@ -44,9 +44,25 @@ public class Pawn {
     }
 
     public void move(MovementType movementType, int newX, int newY) {
-        throw new UnsupportedOperationException("Need to implement Pawn.Move()") ;
+    	if (!isLegalMove(newX, newY)) {
+    		return;
+    	}
+    	setXCoordinate(newX);
+    	setYCoordinate(newY);
     }
 
+    private boolean isLegalMove(int newX, int newY) {
+    	// Check that we're not moving outside the board
+    	if (!chessBoard.isLegalBoardPosition(newX, newY)) {
+    		return false;
+    	}
+    	if (pieceColor == PieceColor.WHITE) {
+	    	return (xCoordinate +1 == newX && yCoordinate == newY) || (xCoordinate +1 == newX && yCoordinate +1 == newY) || (xCoordinate +1 == newX && yCoordinate -1 == newY);
+    	} else {
+    		return (xCoordinate -1 == newX && yCoordinate == newY) || (xCoordinate -1 == newX && yCoordinate +1 == newY) || (xCoordinate -1 == newX && yCoordinate -1 == newY);
+    	}
+    }
+    
     @Override
     public String toString() {
         return getCurrentPositionAsString();
